@@ -46,6 +46,7 @@ functions with:
 
 ```go
 sqlbuilder.DefaultDBMS = Postgres
+sqlbuilder.Select("...")
 ```
 
 or you can specify the DBMS explicitly:
