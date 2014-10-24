@@ -47,19 +47,19 @@ func (dbms DBMS) Update(table string) *UpdateStatement {
 }
 
 // DefaultDBMS is the DBMS used by the package-level Select, Insert and Update functions.
-var DefaultDatabase = MySQL
+var DefaultDBMS = MySQL
 
 // Select returns a SELECT statement using the default Database.
 func Select(table string) *SelectStatement {
-	return DefaultDatabase.Select(table)
+	return DefaultDBMS.Select(table)
 }
 
 // Insert returns an INSERT statement using the default Database.
 func Insert(table string) *InsertStatement {
-	return DefaultDatabase.Insert(table)
+	return DefaultDBMS.Insert(table)
 }
 
 // Update returns an UPDATE statement using the default Database.
 func Update(table string) *UpdateStatement {
-	return DefaultDatabase.Update(table)
+	return DefaultDBMS.Update(table)
 }
