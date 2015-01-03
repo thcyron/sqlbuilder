@@ -24,9 +24,7 @@ func (dbms DBMS) Placeholder(idx int) string {
 
 // Select returns a SELECT statement.
 func (dbms DBMS) Select() *SelectStatement {
-	return &SelectStatement{
-		dbms:  dbms,
-	}
+	return &SelectStatement{dbms: dbms}
 }
 
 // Insert returns an INSERT statement.
