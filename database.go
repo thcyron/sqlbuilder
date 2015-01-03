@@ -18,7 +18,7 @@ func (dbms DBMS) Placeholder(idx int) string {
 	case Postgres:
 		return "$" + strconv.Itoa(idx+1)
 	default:
-		panic("unknown DBMS")
+		panic("sqlbuilder: unknown DBMS")
 	}
 }
 
