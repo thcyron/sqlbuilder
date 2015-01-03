@@ -45,14 +45,14 @@ can set the default DBMS used by the package-level Select, Update and Insert
 functions with:
 
 ```go
-sqlbuilder.DefaultDBMS = Postgres
-sqlbuilder.Select("...")
+sqlbuilder.DefaultDBMS = sqlbuilder.Postgres
+sqlbuilder.Select().From("...")...
 ```
 
 or you can specify the DBMS explicitly:
 
 ```go
-sqlbuilder.Postgres.Select("...")
+sqlbuilder.Postgres.Select().From("...")...
 ```
 
 Documentation
