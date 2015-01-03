@@ -23,10 +23,9 @@ func (dbms DBMS) Placeholder(idx int) string {
 }
 
 // Select returns a SELECT statement.
-func (dbms DBMS) Select(table string) *SelectStatement {
+func (dbms DBMS) Select() *SelectStatement {
 	return &SelectStatement{
 		dbms:  dbms,
-		table: table,
 	}
 }
 
@@ -50,8 +49,8 @@ func (dbms DBMS) Update(table string) *UpdateStatement {
 var DefaultDBMS = MySQL
 
 // Select returns a SELECT statement using the default Database.
-func Select(table string) *SelectStatement {
-	return DefaultDBMS.Select(table)
+func Select() *SelectStatement {
+	return DefaultDBMS.Select()
 }
 
 // Insert returns an INSERT statement using the default Database.

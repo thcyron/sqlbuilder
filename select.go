@@ -42,6 +42,12 @@ func (s *SelectStatement) Select(col string, dest interface{}) *SelectStatement 
 	return s
 }
 
+// From sets the table to select from.
+func (s *SelectStatement) From(table string) *SelectStatement {
+	s.table = table
+	return s
+}
+
 // Join adds a JOIN statement to the query. The statement must be complete JOIN
 // statement like ‘INNER JOIN foo ON foo.id = bar.foo_id’.
 func (s *SelectStatement) Join(sql string, args ...interface{}) *SelectStatement {

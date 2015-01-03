@@ -9,7 +9,7 @@ Examples
 **SELECT**
 
 ```go
-b := sqlbuilder.Select("customers").
+b := sqlbuilder.Select().From("customers").
         Select("id", &customer.ID).
         Select("name", &customer.Name).
         Select("phone", &customer.Phone).

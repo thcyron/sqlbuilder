@@ -14,7 +14,7 @@ type customer struct {
 func TestSimpleSelect(t *testing.T) {
 	c := customer{}
 
-	q := MySQL.Select("customers")
+	q := MySQL.Select().From("customers")
 	q.Select("id", &c.ID)
 	q.Select("name", &c.Name)
 	q.Select("phone", &c.Phone)
@@ -34,7 +34,7 @@ func TestSimpleSelect(t *testing.T) {
 func TestSimpleSelectWithLimitOffset(t *testing.T) {
 	c := customer{}
 
-	q := MySQL.Select("customers")
+	q := MySQL.Select().From("customers")
 	q.Select("id", &c.ID)
 	q.Select("name", &c.Name)
 	q.Select("phone", &c.Phone)
@@ -55,7 +55,7 @@ func TestSimpleSelectWithLimitOffset(t *testing.T) {
 func TestSimpleSelectWithJoins(t *testing.T) {
 	c := customer{}
 
-	q := MySQL.Select("customers")
+	q := MySQL.Select().From("customers")
 	q.Select("id", &c.ID)
 	q.Select("name", &c.Name)
 	q.Select("phone", &c.Phone)
@@ -71,7 +71,7 @@ func TestSimpleSelectWithJoins(t *testing.T) {
 func TestSelectWithWhereMySQL(t *testing.T) {
 	c := customer{}
 
-	q := MySQL.Select("customers")
+	q := MySQL.Select().From("customers")
 	q.Select("id", &c.ID)
 	q.Select("name", &c.Name)
 	q.Select("phone", &c.Phone)
@@ -91,7 +91,7 @@ func TestSelectWithWhereMySQL(t *testing.T) {
 func TestSelectWithWherePostgres(t *testing.T) {
 	c := customer{}
 
-	q := Postgres.Select("customers")
+	q := Postgres.Select().From("customers")
 	q.Select("id", &c.ID)
 	q.Select("name", &c.Name)
 	q.Select("phone", &c.Phone)
