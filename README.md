@@ -1,4 +1,4 @@
-sqlbuilder
+sqlbuilder ![Travis CI status](https://api.travis-ci.org/thcyron/sqlbuilder.svg)
 ==========
 
 `sqlbuilder` is a Go library for building SQL queries.
