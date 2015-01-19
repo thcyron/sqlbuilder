@@ -6,7 +6,7 @@ import (
 )
 
 func TestUpdateMySQL(t *testing.T) {
-	q := MySQL.Update("customers")
+	q := MySQL.Update().Table("customers")
 	q.Set("name", "John")
 	q.Set("phone", "555")
 
@@ -22,7 +22,7 @@ func TestUpdateMySQL(t *testing.T) {
 }
 
 func TestUpdatePostgres(t *testing.T) {
-	q := Postgres.Update("customers")
+	q := Postgres.Update().Table("customers")
 	q.Set("name", "John")
 	q.Set("phone", "555")
 
@@ -38,7 +38,7 @@ func TestUpdatePostgres(t *testing.T) {
 }
 
 func TestUpdateWithWhereMySQL(t *testing.T) {
-	q := MySQL.Update("customers")
+	q := MySQL.Update().Table("customers")
 	q.Set("name", "John")
 	q.Set("phone", "555")
 	q.Where("id = ?", 9)
@@ -55,7 +55,7 @@ func TestUpdateWithWhereMySQL(t *testing.T) {
 }
 
 func TestUpdateWithWherePostgres(t *testing.T) {
-	q := Postgres.Update("customers")
+	q := Postgres.Update().Table("customers")
 	q.Set("name", "John")
 	q.Set("phone", "555")
 	q.Where("id = ?", 9)

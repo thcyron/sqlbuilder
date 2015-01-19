@@ -9,32 +9,42 @@ Examples
 **SELECT**
 
 ```go
-b := sqlbuilder.Select().From("customers").
-        Select("id", &customer.ID).
-        Select("name", &customer.Name).
-        Select("phone", &customer.Phone).
+b := sqlbuilder.Select().
+        From("customers").
+        Map("id", &customer.ID).
+        Map("name", &customer.Name).
+        Map("phone", &customer.Phone).
         Order("id DESC").
         Limit(1)
+
 err := db.QueryRow(b.Query(), b.Args()...).Scan(b.Dest()...)
+// or
+err := sqlbuilder.QueryRowDB(db, b)
 ```
 
 **INSERT**
 
 ```go
-b := sqlbuilder.Insert("customers").
+b := sqlbuilder.Insert().
+        Into("customers").
         Set("name", "John").
         Set("phone", "555")
 err := db.Exec(b.Query(), b.Args()...)
+// or
+err := sqlbuilder.ExecDB(db, b)
 ```
 
 **UPDATE**
 
 ```go
-b := sqlbuilder.Update("customers").
+b := sqlbuilder.Update().
+        Table("customers").
         Set("name", "John").
         Set("phone", "555").
         Where("id = ?", 1)
 err := db.Exec(b.Query(), b.Args()...)
+// or
+err := sqlbuilder.ExecDB(db, b)
 ```
 
 Supported DBMS

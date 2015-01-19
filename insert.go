@@ -16,6 +16,12 @@ type InsertStatement struct {
 	args  []interface{}
 }
 
+// Into sets the table to insert into.
+func (s *InsertStatement) Into(table string) *InsertStatement {
+	s.table = table
+	return s
+}
+
 // Set updates the statement to set column col to value val.
 func (s *InsertStatement) Set(col string, val interface{}) *InsertStatement {
 	s.sets = append(s.sets, insertSet{col, val, false})

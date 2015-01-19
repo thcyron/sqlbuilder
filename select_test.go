@@ -15,10 +15,10 @@ func TestSimpleSelect(t *testing.T) {
 	c := customer{}
 
 	q := MySQL.Select().From("customers")
-	q.Select("id", &c.ID)
-	q.Select("name", &c.Name)
-	q.Select("phone", &c.Phone)
-	q.Select("1+1 AS two", nil)
+	q.Map("id", &c.ID)
+	q.Map("name", &c.Name)
+	q.Map("phone", &c.Phone)
+	q.Map("1+1 AS two", nil)
 
 	expectedQuery := "SELECT id, name, phone, 1+1 AS two FROM customers"
 	if query := q.Query(); query != expectedQuery {
@@ -35,9 +35,9 @@ func TestSimpleSelectWithLimitOffset(t *testing.T) {
 	c := customer{}
 
 	q := MySQL.Select().From("customers")
-	q.Select("id", &c.ID)
-	q.Select("name", &c.Name)
-	q.Select("phone", &c.Phone)
+	q.Map("id", &c.ID)
+	q.Map("name", &c.Name)
+	q.Map("phone", &c.Phone)
 	q.Limit(5)
 	q.Offset(10)
 
@@ -56,9 +56,9 @@ func TestSimpleSelectWithJoins(t *testing.T) {
 	c := customer{}
 
 	q := MySQL.Select().From("customers")
-	q.Select("id", &c.ID)
-	q.Select("name", &c.Name)
-	q.Select("phone", &c.Phone)
+	q.Map("id", &c.ID)
+	q.Map("name", &c.Name)
+	q.Map("phone", &c.Phone)
 	q.Join("INNER JOIN orders ON orders.customer_id = customers.id")
 	q.Join("LEFT JOIN items ON items.order_id = orders.id")
 
@@ -72,9 +72,9 @@ func TestSelectWithWhereMySQL(t *testing.T) {
 	c := customer{}
 
 	q := MySQL.Select().From("customers")
-	q.Select("id", &c.ID)
-	q.Select("name", &c.Name)
-	q.Select("phone", &c.Phone)
+	q.Map("id", &c.ID)
+	q.Map("name", &c.Name)
+	q.Map("phone", &c.Phone)
 	q.Where("id = ? AND name IS NOT NULL", 9)
 
 	expectedQuery := "SELECT id, name, phone FROM customers WHERE id = ? AND name IS NOT NULL"
@@ -92,9 +92,9 @@ func TestSelectWithWherePostgres(t *testing.T) {
 	c := customer{}
 
 	q := Postgres.Select().From("customers")
-	q.Select("id", &c.ID)
-	q.Select("name", &c.Name)
-	q.Select("phone", &c.Phone)
+	q.Map("id", &c.ID)
+	q.Map("name", &c.Name)
+	q.Map("phone", &c.Phone)
 	q.Where("id = ? AND name IS NOT NULL", 9)
 
 	expectedQuery := "SELECT id, name, phone FROM customers WHERE id = $1 AND name IS NOT NULL"

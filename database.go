@@ -28,19 +28,13 @@ func (dbms DBMS) Select() *SelectStatement {
 }
 
 // Insert returns an INSERT statement.
-func (dbms DBMS) Insert(table string) *InsertStatement {
-	return &InsertStatement{
-		dbms:  dbms,
-		table: table,
-	}
+func (dbms DBMS) Insert() *InsertStatement {
+	return &InsertStatement{dbms: dbms}
 }
 
 // Update returns an UPDATE statement.
-func (dbms DBMS) Update(table string) *UpdateStatement {
-	return &UpdateStatement{
-		dbms:  dbms,
-		table: table,
-	}
+func (dbms DBMS) Update() *UpdateStatement {
+	return &UpdateStatement{dbms: dbms}
 }
 
 // DefaultDBMS is the DBMS used by the package-level Select, Insert and Update functions.
@@ -52,11 +46,11 @@ func Select() *SelectStatement {
 }
 
 // Insert returns an INSERT statement using the default Database.
-func Insert(table string) *InsertStatement {
-	return DefaultDBMS.Insert(table)
+func Insert() *InsertStatement {
+	return DefaultDBMS.Insert()
 }
 
 // Update returns an UPDATE statement using the default Database.
-func Update(table string) *UpdateStatement {
-	return DefaultDBMS.Update(table)
+func Update() *UpdateStatement {
+	return DefaultDBMS.Update()
 }

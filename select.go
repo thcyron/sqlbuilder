@@ -32,9 +32,9 @@ type join struct {
 	args []interface{}
 }
 
-// Select updates the query to select column col and scan its value into dest.
+// Map updates the query to select column col and scan its value into dest.
 // Dest may be nil if you don’t care about the value.
-func (s *SelectStatement) Select(col string, dest interface{}) *SelectStatement {
+func (s *SelectStatement) Map(col string, dest interface{}) *SelectStatement {
 	if dest == nil {
 		dest = nullDest
 	}

@@ -6,7 +6,7 @@ import (
 )
 
 func TestInsertMySQL(t *testing.T) {
-	q := MySQL.Insert("customers")
+	q := MySQL.Insert().Into("customers")
 	q.Set("name", "John")
 	q.Set("phone", "555")
 	q.SetSQL("created_at", "NOW()")
@@ -23,7 +23,7 @@ func TestInsertMySQL(t *testing.T) {
 }
 
 func TestInsertPostgres(t *testing.T) {
-	q := Postgres.Insert("customers")
+	q := Postgres.Insert().Into("customers")
 	q.Set("name", "John")
 	q.Set("phone", "555")
 	q.SetSQL("created_at", "NOW()")

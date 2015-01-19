@@ -19,6 +19,12 @@ type UpdateStatement struct {
 	args   []interface{}
 }
 
+// Table sets the table to update.
+func (s *UpdateStatement) Table(table string) *UpdateStatement {
+	s.table = table
+	return s
+}
+
 // Set updates the query to set column col to arg.
 func (s *UpdateStatement) Set(col string, arg interface{}) *UpdateStatement {
 	s.sets = append(s.sets, updateSet{col: col, arg: arg, raw: false})
