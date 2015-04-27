@@ -18,8 +18,6 @@ b := sqlbuilder.Select().
         Limit(1)
 
 err := db.QueryRow(b.Query(), b.Args()...).Scan(b.Dest()...)
-// or
-err := sqlbuilder.QueryRowDB(db, b)
 ```
 
 **INSERT**
@@ -30,8 +28,6 @@ b := sqlbuilder.Insert().
         Set("name", "John").
         Set("phone", "555")
 err := db.Exec(b.Query(), b.Args()...)
-// or
-err := sqlbuilder.ExecDB(db, b)
 ```
 
 **UPDATE**
@@ -43,8 +39,6 @@ b := sqlbuilder.Update().
         Set("phone", "555").
         Where("id = ?", 1)
 err := db.Exec(b.Query(), b.Args()...)
-// or
-err := sqlbuilder.ExecDB(db, b)
 ```
 
 Supported DBMS
