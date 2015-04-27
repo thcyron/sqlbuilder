@@ -88,6 +88,15 @@ func TestSelectWithWhereMySQL(t *testing.T) {
 	}
 }
 
+func TestSelectWithGroupMySQL(t *testing.T) {
+	var count uint
+	q := MySQL.Select().From("customers").Map("COUNT(*)", &count).Group("city")
+	expectedQuery := "SELECT COUNT(*) FROM customers GROUP BY city"
+	if query := q.Query(); query != expectedQuery {
+		t.Errorf("bad query: %s", query)
+	}
+}
+
 func TestSelectWithWherePostgres(t *testing.T) {
 	c := customer{}
 

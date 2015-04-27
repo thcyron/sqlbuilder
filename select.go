@@ -18,6 +18,8 @@ type SelectStatement struct {
 	limit   *int
 	offset  *int
 	order   string
+	group   string
+	having  string
 	args    []interface{}
 	dests   []interface{}
 }
@@ -80,6 +82,18 @@ func (s *SelectStatement) Order(order string) *SelectStatement {
 	return s
 }
 
+// Group sets the GROUP BY statement. Only the last Group() is used.
+func (s *SelectStatement) Group(group string) *SelectStatement {
+	s.group = group
+	return s
+}
+
+// Having sets the HAVING statement. Only the last Having() is used.
+func (s *SelectStatement) Having(having string) *SelectStatement {
+	s.having = having
+	return s
+}
+
 // Lock updates the statement to lock rows using FOR UPDATE.
 func (s *SelectStatement) Lock() *SelectStatement {
 	s.lock = true
@@ -134,6 +148,14 @@ func (s *SelectStatement) Query() string {
 
 	if s.order != "" {
 		query += " ORDER BY " + s.order
+	}
+
+	if s.group != "" {
+		query += " GROUP BY " + s.group
+	}
+
+	if s.having != "" {
+		query += " HAVING " + s.having
 	}
 
 	if s.limit != nil {
