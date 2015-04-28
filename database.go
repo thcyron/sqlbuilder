@@ -23,34 +23,34 @@ func (dbms DBMS) Placeholder(idx int) string {
 }
 
 // Select returns a SELECT statement.
-func (dbms DBMS) Select() *SelectStatement {
-	return &SelectStatement{dbms: dbms}
+func (dbms DBMS) Select() SelectStatement {
+	return SelectStatement{dbms: dbms}
 }
 
 // Insert returns an INSERT statement.
-func (dbms DBMS) Insert() *InsertStatement {
-	return &InsertStatement{dbms: dbms}
+func (dbms DBMS) Insert() InsertStatement {
+	return InsertStatement{dbms: dbms}
 }
 
 // Update returns an UPDATE statement.
-func (dbms DBMS) Update() *UpdateStatement {
-	return &UpdateStatement{dbms: dbms}
+func (dbms DBMS) Update() UpdateStatement {
+	return UpdateStatement{dbms: dbms}
 }
 
 // DefaultDBMS is the DBMS used by the package-level Select, Insert and Update functions.
 var DefaultDBMS = MySQL
 
 // Select returns a SELECT statement using the default Database.
-func Select() *SelectStatement {
+func Select() SelectStatement {
 	return DefaultDBMS.Select()
 }
 
 // Insert returns an INSERT statement using the default Database.
-func Insert() *InsertStatement {
+func Insert() InsertStatement {
 	return DefaultDBMS.Insert()
 }
 
 // Update returns an UPDATE statement using the default Database.
-func Update() *UpdateStatement {
+func Update() UpdateStatement {
 	return DefaultDBMS.Update()
 }

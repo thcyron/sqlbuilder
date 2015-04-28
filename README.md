@@ -9,36 +9,39 @@ Examples
 **SELECT**
 
 ```go
-b := sqlbuilder.Select().
+query, args, scans := sqlbuilder.Select().
         From("customers").
         Map("id", &customer.ID).
         Map("name", &customer.Name).
         Map("phone", &customer.Phone).
         Order("id DESC").
-        Limit(1)
+        Limit(1).
+        Build()
 
-err := db.QueryRow(b.Query(), b.Args()...).Scan(b.Dest()...)
+err := db.QueryRow(query, args...).Scan(scans...)
 ```
 
 **INSERT**
 
 ```go
-b := sqlbuilder.Insert().
+query, args := sqlbuilder.Insert().
         Into("customers").
         Set("name", "John").
-        Set("phone", "555")
-err := db.Exec(b.Query(), b.Args()...)
+        Set("phone", "555").
+        Build()
+err := db.Exec(query, args...)
 ```
 
 **UPDATE**
 
 ```go
-b := sqlbuilder.Update().
+query, args := sqlbuilder.Update().
         Table("customers").
         Set("name", "John").
         Set("phone", "555").
-        Where("id = ?", 1)
-err := db.Exec(b.Query(), b.Args()...)
+        Where("id = ?", 1).
+        Build()
+err := db.Exec(query, args...)
 ```
 
 Supported DBMS

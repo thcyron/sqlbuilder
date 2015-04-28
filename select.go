@@ -20,8 +20,6 @@ type SelectStatement struct {
 	order   string
 	group   string
 	having  string
-	args    []interface{}
-	dests   []interface{}
 }
 
 type sel struct {
@@ -34,9 +32,15 @@ type join struct {
 	args []interface{}
 }
 
-// Map updates the query to select column col and scan its value into dest.
-// Dest may be nil if you don’t care about the value.
-func (s *SelectStatement) Map(col string, dest interface{}) *SelectStatement {
+// From sets the table to select from.
+func (s SelectStatement) From(table string) SelectStatement {
+	s.table = table
+	return s
+}
+
+// Map configures the statement to select column col and scan its value
+// into dest. Dest may be nil if you don't want to scan the value.
+func (s SelectStatement) Map(col string, dest interface{}) SelectStatement {
 	if dest == nil {
 		dest = nullDest
 	}
@@ -44,90 +48,83 @@ func (s *SelectStatement) Map(col string, dest interface{}) *SelectStatement {
 	return s
 }
 
-// From sets the table to select from.
-func (s *SelectStatement) From(table string) *SelectStatement {
-	s.table = table
-	return s
-}
-
-// Join adds a JOIN statement to the query. The statement must be complete JOIN
-// statement like ‘INNER JOIN foo ON foo.id = bar.foo_id’.
-func (s *SelectStatement) Join(sql string, args ...interface{}) *SelectStatement {
+// Join adds a JOIN statement to the query.
+func (s SelectStatement) Join(sql string, args ...interface{}) SelectStatement {
 	s.joins = append(s.joins, join{sql, args})
 	return s
 }
 
-// Where adds a where condition to the query. Multiple conditions are AND’d together.
-func (s *SelectStatement) Where(cond string, args ...interface{}) *SelectStatement {
+// Where adds a WHERE condition to the query. Multiple conditions are
+// AND'd together.
+func (s SelectStatement) Where(cond string, args ...interface{}) SelectStatement {
 	s.wheres = append(s.wheres, where{cond, args})
 	return s
 }
 
 // Limit sets the limit.
-func (s *SelectStatement) Limit(limit int) *SelectStatement {
+func (s SelectStatement) Limit(limit int) SelectStatement {
 	s.limit = &limit
 	return s
 }
 
 // Offset sets the offset.
-func (s *SelectStatement) Offset(offset int) *SelectStatement {
+func (s SelectStatement) Offset(offset int) SelectStatement {
 	s.offset = &offset
 	return s
 }
 
 // Order sets the ordering of the results. Only the last Order() is used
 // in the query, use Order("updated_at DESC, id DESC") to order by multiple columns.
-func (s *SelectStatement) Order(order string) *SelectStatement {
+func (s SelectStatement) Order(order string) SelectStatement {
 	s.order = order
 	return s
 }
 
 // Group sets the GROUP BY statement. Only the last Group() is used.
-func (s *SelectStatement) Group(group string) *SelectStatement {
+func (s SelectStatement) Group(group string) SelectStatement {
 	s.group = group
 	return s
 }
 
 // Having sets the HAVING statement. Only the last Having() is used.
-func (s *SelectStatement) Having(having string) *SelectStatement {
+func (s SelectStatement) Having(having string) SelectStatement {
 	s.having = having
 	return s
 }
 
 // Lock updates the statement to lock rows using FOR UPDATE.
-func (s *SelectStatement) Lock() *SelectStatement {
+func (s SelectStatement) Lock() SelectStatement {
 	s.lock = true
 	return s
 }
 
-// Query builds and returns the SQL query.
-func (s *SelectStatement) Query() string {
+// Build builds the SQL query. It returns the query, the argument slice,
+// and the scans slice.
+func (s SelectStatement) Build() (query string, args []interface{}, scans []interface{}) {
 	var cols []string
 	idx := 0
-	s.args = []interface{}{}
-	s.dests = []interface{}{}
 
 	if len(s.selects) > 0 {
 		for _, sel := range s.selects {
 			cols = append(cols, sel.col)
 			if sel.dest == nil {
-				s.dests = append(s.dests, &nullDest)
+				scans = append(scans, &nullDest)
 			} else {
-				s.dests = append(s.dests, sel.dest)
+				scans = append(scans, sel.dest)
 			}
 		}
 	} else {
 		cols = append(cols, "1")
-		s.dests = append(s.dests, nullDest)
+		scans = append(scans, nullDest)
 	}
-	query := "SELECT " + strings.Join(cols, ", ") + " FROM " + s.table
+	query = "SELECT " + strings.Join(cols, ", ") + " FROM " + s.table
 
 	for _, join := range s.joins {
 		sql := join.sql
 		for _, arg := range join.args {
 			sql = strings.Replace(sql, "?", s.dbms.Placeholder(idx), 1)
 			idx++
-			s.args = append(s.args, arg)
+			args = append(args, arg)
 		}
 		query += " " + sql
 	}
@@ -139,7 +136,7 @@ func (s *SelectStatement) Query() string {
 			for _, arg := range where.args {
 				sql = strings.Replace(sql, "?", s.dbms.Placeholder(idx), 1)
 				idx++
-				s.args = append(s.args, arg)
+				args = append(args, arg)
 			}
 			sqls = append(sqls, sql)
 		}
@@ -170,23 +167,5 @@ func (s *SelectStatement) Query() string {
 		query += " FOR UPDATE"
 	}
 
-	return query
-}
-
-// Args returns the arguments for the placeholder in the query.
-// Args() panics if Query() was not called before.
-func (s *SelectStatement) Args() []interface{} {
-	if s.args == nil {
-		panic("sqlbuilder: must call Query() before Args()")
-	}
-	return s.args
-}
-
-// Dest returns the destinations to scan selected columns to.
-// Dest() panics if Query() was not called before.
-func (s *SelectStatement) Dest() []interface{} {
-	if s.dests == nil {
-		panic("sqlbuilder: must call Query() before Dest()")
-	}
-	return s.dests
+	return
 }
