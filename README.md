@@ -1,7 +1,14 @@
-sqlbuilder ![Travis CI status](https://api.travis-ci.org/thcyron/sqlbuilder.svg)
+sqlbuilder
 ==========
 
+[![Travis CI status](https://api.travis-ci.org/thcyron/sqlbuilder.svg)](https://travis-ci.org/thcyron/sqlbuilder)
+
 `sqlbuilder` is a Go library for building SQL queries.
+
+Installation
+------------
+
+    go get github.com/thcyron/sqlbuilder
 
 Examples
 --------
@@ -62,10 +69,24 @@ or you can specify the DBMS explicitly:
 sqlbuilder.Postgres.Select().From("...")...
 ```
 
+You typically set the default DBMS in `init()`:
+
+```go
+func init() {
+        sqlbuilder.DefaultDBMS = sqlbuilder.Postgres
+}
+```
+
 Documentation
 -------------
 
 Documentation is available at [Godoc](http://godoc.org/github.com/thcyron/sqlbuilder).
+
+Versioning
+----------
+
+`sqlbuilder` follows [Semantic Versioning](http://semver.org/).
+The current version is [1.0.0](https://github.com/thcyron/sqlbuilder/tree/v1.0.0/).
 
 License
 -------
