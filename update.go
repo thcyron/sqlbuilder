@@ -19,25 +19,26 @@ type UpdateStatement struct {
 	args   []interface{}
 }
 
-// Table sets the table to update.
+// Table returns a new statement with the table to update set to 'table'.
 func (s UpdateStatement) Table(table string) UpdateStatement {
 	s.table = table
 	return s
 }
 
-// Set updates the query to set column col to arg.
-func (s UpdateStatement) Set(col string, arg interface{}) UpdateStatement {
-	s.sets = append(s.sets, updateSet{col: col, arg: arg, raw: false})
+// Set returns a new statement with column 'col' set to value 'val'.
+func (s UpdateStatement) Set(col string, val interface{}) UpdateStatement {
+	s.sets = append(s.sets, updateSet{col: col, arg: val, raw: false})
 	return s
 }
 
-// SetSQL updates the query to set column col to the value of the SQL expression sql.
+// SetSQL returns a new statement with column 'col' set to SQL expression 'sql'.
 func (s UpdateStatement) SetSQL(col string, sql string) UpdateStatement {
 	s.sets = append(s.sets, updateSet{col: col, arg: sql, raw: true})
 	return s
 }
 
-// Where adds a where condition to the query. Multiple conditions are AND’d together.
+// Where returns a new statement with condition 'cond'.
+// Multiple Where() are combined with AND.
 func (s UpdateStatement) Where(cond string, args ...interface{}) UpdateStatement {
 	s.wheres = append(s.wheres, where{cond, args})
 	return s

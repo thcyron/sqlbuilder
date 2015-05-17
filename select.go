@@ -32,14 +32,14 @@ type join struct {
 	args []interface{}
 }
 
-// From sets the table to select from.
+// From returns a new statement with the table to select from set to 'table'.
 func (s SelectStatement) From(table string) SelectStatement {
 	s.table = table
 	return s
 }
 
-// Map configures the statement to select column col and scan its value
-// into dest. Dest may be nil if you don't want to scan the value.
+// Map returns a new statement with column 'col' selected and scanned
+// into 'dest'. 'dest' may be nil if the value should not be scanned.
 func (s SelectStatement) Map(col string, dest interface{}) SelectStatement {
 	if dest == nil {
 		dest = nullDest
@@ -48,59 +48,61 @@ func (s SelectStatement) Map(col string, dest interface{}) SelectStatement {
 	return s
 }
 
-// Join adds a JOIN statement to the query.
+// Join returns a new statement with JOIN expression 'sql'.
 func (s SelectStatement) Join(sql string, args ...interface{}) SelectStatement {
 	s.joins = append(s.joins, join{sql, args})
 	return s
 }
 
-// Where adds a WHERE condition to the query. Multiple conditions are
-// AND'd together.
+// Where returns a new statement with condition 'cond'. Multiple conditions
+// are combined with AND.
 func (s SelectStatement) Where(cond string, args ...interface{}) SelectStatement {
 	s.wheres = append(s.wheres, where{cond, args})
 	return s
 }
 
-// Limit sets the limit.
+// Limit returns a new statement with the limit set to 'limit'.
 func (s SelectStatement) Limit(limit int) SelectStatement {
 	s.limit = &limit
 	return s
 }
 
-// Offset sets the offset.
+// Offset returns a new statement with the offset set to 'offset'.
 func (s SelectStatement) Offset(offset int) SelectStatement {
 	s.offset = &offset
 	return s
 }
 
-// Order sets the ordering of the results. Only the last Order() is used
-// in the query, use Order("updated_at DESC, id DESC") to order by multiple columns.
+// Order returns a new statement with ordering 'order'.
+// Only the last Order() is used.
 func (s SelectStatement) Order(order string) SelectStatement {
 	s.order = order
 	return s
 }
 
-// Group sets the GROUP BY statement. Only the last Group() is used.
+// Group returns a new statement with grouping 'group'.
+// Only the last Group() is used.
 func (s SelectStatement) Group(group string) SelectStatement {
 	s.group = group
 	return s
 }
 
-// Having sets the HAVING statement. Only the last Having() is used.
+// Having returns a new statement with HAVING condition 'having'.
+// Only the last Having() is used.
 func (s SelectStatement) Having(having string) SelectStatement {
 	s.having = having
 	return s
 }
 
-// Lock updates the statement to lock rows using FOR UPDATE.
+// Lock returns a new statement with FOR UPDATE locking.
 func (s SelectStatement) Lock() SelectStatement {
 	s.lock = true
 	return s
 }
 
 // Build builds the SQL query. It returns the query, the argument slice,
-// and the scans slice.
-func (s SelectStatement) Build() (query string, args []interface{}, scans []interface{}) {
+// and the destination slice.
+func (s SelectStatement) Build() (query string, args []interface{}, dest []interface{}) {
 	var cols []string
 	idx := 0
 
@@ -108,14 +110,14 @@ func (s SelectStatement) Build() (query string, args []interface{}, scans []inte
 		for _, sel := range s.selects {
 			cols = append(cols, sel.col)
 			if sel.dest == nil {
-				scans = append(scans, &nullDest)
+				dest = append(dest, &nullDest)
 			} else {
-				scans = append(scans, sel.dest)
+				dest = append(dest, sel.dest)
 			}
 		}
 	} else {
 		cols = append(cols, "1")
-		scans = append(scans, nullDest)
+		dest = append(dest, nullDest)
 	}
 	query = "SELECT " + strings.Join(cols, ", ") + " FROM " + s.table
 

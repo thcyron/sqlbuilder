@@ -9,7 +9,7 @@ Examples
 **SELECT**
 
 ```go
-query, args, scans := sqlbuilder.Select().
+query, args, dest := sqlbuilder.Select().
         From("customers").
         Map("id", &customer.ID).
         Map("name", &customer.Name).
@@ -18,7 +18,7 @@ query, args, scans := sqlbuilder.Select().
         Limit(1).
         Build()
 
-err := db.QueryRow(query, args...).Scan(scans...)
+err := db.QueryRow(query, args...).Scan(dest...)
 ```
 
 **INSERT**

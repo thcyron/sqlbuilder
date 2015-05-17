@@ -14,7 +14,7 @@ type customer struct {
 func TestSimpleSelect(t *testing.T) {
 	c := customer{}
 
-	query, _, scans := MySQL.Select().
+	query, _, dest := MySQL.Select().
 		From("customers").
 		Map("id", &c.ID).
 		Map("name", &c.Name).
@@ -27,16 +27,16 @@ func TestSimpleSelect(t *testing.T) {
 		t.Errorf("bad query: %s", query)
 	}
 
-	expectedScans := []interface{}{&c.ID, &c.Name, &c.Phone, &nullDest}
-	if !reflect.DeepEqual(scans, expectedScans) {
-		t.Errorf("bad scans: %v", scans)
+	expectedDest := []interface{}{&c.ID, &c.Name, &c.Phone, &nullDest}
+	if !reflect.DeepEqual(dest, expectedDest) {
+		t.Errorf("bad dest: %v", dest)
 	}
 }
 
 func TestSimpleSelectWithLimitOffset(t *testing.T) {
 	c := customer{}
 
-	query, _, scans := MySQL.Select().
+	query, _, dest := MySQL.Select().
 		From("customers").
 		Map("id", &c.ID).
 		Map("name", &c.Name).
@@ -50,9 +50,9 @@ func TestSimpleSelectWithLimitOffset(t *testing.T) {
 		t.Errorf("bad query: %s", query)
 	}
 
-	expectedScans := []interface{}{&c.ID, &c.Name, &c.Phone}
-	if !reflect.DeepEqual(scans, expectedScans) {
-		t.Errorf("bad scans: %v", scans)
+	expectedDest := []interface{}{&c.ID, &c.Name, &c.Phone}
+	if !reflect.DeepEqual(dest, expectedDest) {
+		t.Errorf("bad dest: %v", dest)
 	}
 }
 

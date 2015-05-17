@@ -8,26 +8,26 @@ type insertSet struct {
 	raw bool
 }
 
-// InsertStatement represents an INSERT SQL statement.
+// InsertStatement represents an INSERT statement.
 type InsertStatement struct {
 	dbms  DBMS
 	table string
 	sets  []insertSet
 }
 
-// Into sets the table to insert into.
+// Into returns a new statement with the table to insert into set to 'table'.
 func (s InsertStatement) Into(table string) InsertStatement {
 	s.table = table
 	return s
 }
 
-// Set configures the statement to set column col to value val.
+// Set returns a new statement with column 'col' set to value 'val'.
 func (s InsertStatement) Set(col string, val interface{}) InsertStatement {
 	s.sets = append(s.sets, insertSet{col, val, false})
 	return s
 }
 
-// SetSQL configures the statement to set column col to the raw SQL value sql.
+// SetSQL returns a new statement with column 'col' set to the raw SQL expression 'sql'.
 func (s InsertStatement) SetSQL(col, sql string) InsertStatement {
 	s.sets = append(s.sets, insertSet{col, sql, true})
 	return s
