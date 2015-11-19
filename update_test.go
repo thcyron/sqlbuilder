@@ -49,7 +49,7 @@ func TestUpdateWithWhereMySQL(t *testing.T) {
 		Where("id = ?", 9).
 		Build()
 
-	expectedQuery := "UPDATE customers SET name = ?, phone = ? WHERE id = ?"
+	expectedQuery := "UPDATE customers SET name = ?, phone = ? WHERE (id = ?)"
 	if query != expectedQuery {
 		t.Errorf("bad query: %s", query)
 	}
@@ -68,7 +68,7 @@ func TestUpdateWithWherePostgres(t *testing.T) {
 		Where("id = ?", 9).
 		Build()
 
-	expectedQuery := "UPDATE customers SET name = $1, phone = $2 WHERE id = $3"
+	expectedQuery := "UPDATE customers SET name = $1, phone = $2 WHERE (id = $3)"
 	if query != expectedQuery {
 		t.Errorf("bad query: %s", query)
 	}

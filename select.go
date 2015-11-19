@@ -134,7 +134,7 @@ func (s SelectStatement) Build() (query string, args []interface{}, dest []inter
 	if len(s.wheres) > 0 {
 		var sqls []string
 		for _, where := range s.wheres {
-			sql := where.sql
+			sql := "(" + where.sql + ")"
 			for _, arg := range where.args {
 				sql = strings.Replace(sql, "?", s.dbms.Placeholder(idx), 1)
 				idx++

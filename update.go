@@ -71,7 +71,7 @@ func (s UpdateStatement) Build() (query string, args []interface{}) {
 		var sqls []string
 
 		for _, w := range s.wheres {
-			sql := w.sql
+			sql := "(" + w.sql + ")"
 			for _, arg := range w.args {
 				p := s.dbms.Placeholder(idx)
 				idx++

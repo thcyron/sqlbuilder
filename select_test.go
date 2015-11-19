@@ -85,7 +85,7 @@ func TestSelectWithWhereMySQL(t *testing.T) {
 		Where("id = ? AND name IS NOT NULL", 9).
 		Build()
 
-	expectedQuery := "SELECT id, name, phone FROM customers WHERE id = ? AND name IS NOT NULL"
+	expectedQuery := "SELECT id, name, phone FROM customers WHERE (id = ? AND name IS NOT NULL)"
 	if query != expectedQuery {
 		t.Errorf("bad query: %s", query)
 	}
@@ -116,7 +116,7 @@ func TestSelectWithWherePostgres(t *testing.T) {
 		Where("id = ? AND name IS NOT NULL", 9).
 		Build()
 
-	expectedQuery := "SELECT id, name, phone FROM customers WHERE id = $1 AND name IS NOT NULL"
+	expectedQuery := "SELECT id, name, phone FROM customers WHERE (id = $1 AND name IS NOT NULL)"
 	if query != expectedQuery {
 		t.Errorf("bad query: %s", query)
 	}
