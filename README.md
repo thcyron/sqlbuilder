@@ -86,7 +86,7 @@ Versioning
 ----------
 
 `sqlbuilder` follows [Semantic Versioning](http://semver.org/).
-The current version is [1.0.0](https://github.com/thcyron/sqlbuilder/tree/v1.0.0/).
+The current version is [1.0.1](https://github.com/thcyron/sqlbuilder/tree/v1.0.1/).
 
 License
 -------
