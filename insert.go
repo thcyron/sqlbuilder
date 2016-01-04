@@ -39,7 +39,7 @@ func (s InsertStatement) Build() (query string, args []interface{}) {
 	idx := 0
 
 	for _, set := range s.sets {
-		cols = append(cols, set.col)
+		cols = append(cols, s.dbms.Quote(set.col))
 
 		if set.raw {
 			vals = append(vals, set.arg.(string))
@@ -50,6 +50,6 @@ func (s InsertStatement) Build() (query string, args []interface{}) {
 		}
 	}
 
-	query = "INSERT INTO " + s.table + " (" + strings.Join(cols, ", ") + ") VALUES (" + strings.Join(vals, ", ") + ")"
+	query = "INSERT INTO " + s.dbms.Quote(s.table) + " (" + strings.Join(cols, ", ") + ") VALUES (" + strings.Join(vals, ", ") + ")"
 	return
 }
