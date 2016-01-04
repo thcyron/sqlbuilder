@@ -8,11 +8,17 @@ type insertSet struct {
 	raw bool
 }
 
+type insertRet struct {
+	sql  string
+	dest interface{}
+}
+
 // InsertStatement represents an INSERT statement.
 type InsertStatement struct {
 	dbms  DBMS
 	table string
 	sets  []insertSet
+	rets  []insertRet
 }
 
 // Into returns a new statement with the table to insert into set to 'table'.
@@ -33,8 +39,20 @@ func (s InsertStatement) SetSQL(col, sql string) InsertStatement {
 	return s
 }
 
+// Return returns a new statement with a RETURNING clause.
+func (s InsertStatement) Return(col string, dest interface{}) InsertStatement {
+	s.rets = append(s.rets, insertRet{sql: s.dbms.Quote(col), dest: dest})
+	return s
+}
+
+// ReturnSQL is Return without quoting the argument.
+func (s InsertStatement) ReturnSQL(sql string, dest interface{}) InsertStatement {
+	s.rets = append(s.rets, insertRet{sql: sql, dest: dest})
+	return s
+}
+
 // Build builds the SQL query. It returns the SQL query and the argument slice.
-func (s InsertStatement) Build() (query string, args []interface{}) {
+func (s InsertStatement) Build() (query string, args []interface{}, dest []interface{}) {
 	var cols, vals []string
 	idx := 0
 
@@ -51,5 +69,15 @@ func (s InsertStatement) Build() (query string, args []interface{}) {
 	}
 
 	query = "INSERT INTO " + s.dbms.Quote(s.table) + " (" + strings.Join(cols, ", ") + ") VALUES (" + strings.Join(vals, ", ") + ")"
+
+	if len(s.rets) > 0 {
+		var args []string
+		for _, ret := range s.rets {
+			args = append(args, ret.sql)
+			dest = append(dest, ret.dest)
+		}
+		query += " RETURNING " + strings.Join(args, ", ")
+	}
+
 	return
 }
