@@ -131,7 +131,7 @@ func (s SelectStatement) Build() (query string, args []interface{}, dest []inter
 		}
 	} else {
 		cols = append(cols, "1")
-		dest = append(dest, nullDest)
+		dest = append(dest, &nullDest)
 	}
 	query = "SELECT " + strings.Join(cols, ", ") + " FROM " + s.dbms.Quote(s.table)
 
