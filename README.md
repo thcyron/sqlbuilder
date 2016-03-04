@@ -83,9 +83,9 @@ func init() {
 Documentation
 -------------
 
-Documentation is available at [Godoc](http://godoc.org/github.com/thcyron/sqlbuilder).
+Documentation is available at [GoDoc](https://godoc.org/github.com/thcyron/sqlbuilder).
 
 License
 -------
 
-`sqlbuilder` is licensed under the MIT license.
+`sqlbuilder` is licensed under the MIT License.
