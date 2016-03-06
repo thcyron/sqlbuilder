@@ -36,7 +36,7 @@ err := db.QueryRow(query, args...).Scan(dest...)
 **INSERT**
 
 ```go
-query, args := sqlbuilder.Insert().
+query, args, dest := sqlbuilder.Insert().
         Into("customers").
         Set("name", "John").
         Set("phone", "555").
