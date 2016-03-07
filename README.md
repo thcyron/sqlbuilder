@@ -66,8 +66,8 @@ query, args := sqlbuilder.Delete().
 res, err := db.Exec(query, args...)
 ```
 
-Supported Dialects
-------------------
+Dialects
+--------
 
 `sqlbuilder` supports building queries for MySQL, SQLite, and Postgres databases. You
 can set the default dialect with:
@@ -77,7 +77,7 @@ sqlbuilder.DefaultDialect = sqlbuilder.Postgres
 sqlbuilder.Select().From("...")...
 ```
 
-or you can specify the dialect explicitly:
+Or you can specify the dialect explicitly:
 
 ```go
 sqlbuilder.Select().Dialect(sqlbuilder.Postgres).From("...")...
