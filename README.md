@@ -41,7 +41,7 @@ query, args, dest := sqlbuilder.Insert().
         Set("name", "John").
         Set("phone", "555").
         Build()
-err := db.Exec(query, args...)
+res, err := db.Exec(query, args...)
 ```
 
 **UPDATE**
@@ -53,7 +53,7 @@ query, args := sqlbuilder.Update().
         Set("phone", "555").
         Where("id = ?", 1).
         Build()
-err := db.Exec(query, args...)
+res, err := db.Exec(query, args...)
 ```
 
 **DELETE**
@@ -63,7 +63,7 @@ query, args := sqlbuilder.Delete().
     From("customers").
     Where("name = ?", "John").
     Build()
-err := db.Exec(query, args...)
+res, err := db.Exec(query, args...)
 ```
 
 Supported Dialects
