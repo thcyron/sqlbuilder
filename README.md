@@ -56,6 +56,16 @@ query, args := sqlbuilder.Update().
 err := db.Exec(query, args...)
 ```
 
+**DELETE**
+
+```go
+query, args := sqlbuilder.Delete().
+    From("customers").
+    Where("name = ?", "John").
+    Build()
+err := db.Exec(query, args...)
+```
+
 Supported Dialects
 ------------------
 
