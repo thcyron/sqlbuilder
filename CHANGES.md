@@ -1,5 +1,9 @@
 # Changes
 
+## 4.0.0
+
+Version 4 is identical to version 3 and just adds support for Go modules.
+
 ## 3.0.0
 
 * Remove quoting of table and column names introduced in 2.0.0

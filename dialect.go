@@ -1,8 +1,8 @@
 package sqlbuilder
 
 import (
-	"github.com/thcyron/sqlbuilder/mysql"
-	"github.com/thcyron/sqlbuilder/postgres"
+	"github.com/thcyron/sqlbuilder/v4/mysql"
+	"github.com/thcyron/sqlbuilder/v4/postgres"
 )
 
 // Dialect represents a SQL dialect.

@@ -1,18 +1,22 @@
 sqlbuilder
 ==========
 
-[![Travis CI status](https://api.travis-ci.org/thcyron/sqlbuilder.svg)](https://travis-ci.org/thcyron/sqlbuilder)
+[![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/thcyron/sqlbuilder/v4)
+[![CI status](https://github.com/thcyron/sqlbuilder/workflows/CI/badge.svg)](https://github.com/thcyron/sqlbuilder/actions?query=workflow%3ACI)
 
 `sqlbuilder` is a Go library for building SQL queries.
 
-The latest stable version is [3.0.0](https://github.com/thcyron/sqlbuilder/tree/v3.0.0/).
+The latest stable version is [4.0.0](https://github.com/thcyron/sqlbuilder/tree/v4.0.0/).
+Version 4 is identical to version 3 with added support for Go modules.
 
 `sqlbuilder` follows [Semantic Versioning](http://semver.org/).
 
-Installation
-------------
+Usage
+-----
 
-    go get github.com/thcyron/sqlbuilder
+```go
+import "github.com/thcyron/sqlbuilder/v4"
+```
 
 Examples
 --------
@@ -81,11 +85,6 @@ Or you can specify the dialect explicitly:
 ```go
 sqlbuilder.Select().Dialect(sqlbuilder.Postgres).From("...")...
 ```
-
-Documentation
--------------
-
-Documentation is available at [GoDoc](https://godoc.org/github.com/thcyron/sqlbuilder).
 
 License
 -------

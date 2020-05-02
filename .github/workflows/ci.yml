@@ -1,0 +1,20 @@
+name: CI
+on: [push]
+jobs:
+  build:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-go@v1
+      with:
+        go-version: "1.14"
+    - uses: actions/checkout@v1
+    - name: Check formatting and imports via goimports
+      run: |
+        export PATH=$(go env GOPATH)/bin:$PATH
+        go get golang.org/x/tools/cmd/goimports
+        diff -u <(echo -n) <(goimports -d .)
+    - name: Run go vet
+      run: go vet -v ./...
+    - name: Run go test
+      run: go test -v ./...
